@@ -11,10 +11,18 @@ export const profile = {
   linkedin: 'https://www.linkedin.com/in/khaled-lakhdher',
   resumeEn: '/resume/Khaled_Lakhdher_CV_EN.pdf',
   resumeFr: '/resume/Khaled_Lakhdher_CV_FR.pdf',
-  // Swap this for your own photo: drop a file in /public (e.g. avatar.jpg)
-  // and set this to '/avatar.jpg'. Defaults to a coding illustration.
-  avatar: '/avatar.svg',
+  avatar: '/khaled.jpg',
+  github: 'https://github.com/KhaledLakhdher',
+  availability: 'Open to AI / LLM engineering roles · France, Europe, Gulf or remote',
 }
+
+// Headline numbers shown under the hero. Keep them verifiable from the projects below.
+export const stats = [
+  { value: '9', label: 'LangGraph agents in production' },
+  { value: '500', label: 'real bugs in my LLM benchmark' },
+  { value: '1.8×', label: 'overstatement a single score hides' },
+  { value: '3', label: 'full-stack AI products built end to end' },
+]
 
 export type Experience = {
   role: string
@@ -61,6 +69,11 @@ export const experiences: Experience[] = [
   },
 ]
 
+export type ProjectMedia =
+  | { kind: 'video'; src: string; poster: string }
+  | { kind: 'image'; src: string; alt: string }
+  | { kind: 'bars'; caption: string; bars: { label: string; value: number }[] }
+
 export type Project = {
   title: string
   blurb: string
@@ -70,9 +83,11 @@ export type Project = {
   github?: string
   demo?: string
   private?: boolean
+  inProgress?: boolean
+  media?: ProjectMedia
 }
 
-export const projects: Project[] = [
+const allProjects: Project[] = [
   {
     title: 'Nexus AI - Artificial Intelligence Employee Management Platform',
     blurb:
@@ -83,7 +98,7 @@ export const projects: Project[] = [
     ],
     tags: ['FastAPI', 'pgvector', 'Redis Streams', 'Next.js', 'Multi-Agent', 'WebSockets'],
     featured: true,
-    github: 'https://github.com/KhaledLakhdher/startup',
+    github: 'https://github.com/KhaledLakhdher/nexus-ai',
   },
   {
     title: 'Steam Player Forecaster - Production MLOps Pipeline',
@@ -96,6 +111,8 @@ export const projects: Project[] = [
     tags: ['MLOps', 'MLflow', 'FastAPI', 'scikit-learn', 'Docker', 'GitHub Actions', 'Streamlit'],
     featured: true,
     github: 'https://github.com/KhaledLakhdher/steam-player-mlops',
+    demo: '/demos/steam-demo.mp4',
+    media: { kind: 'video', src: '/demos/steam-demo.mp4', poster: '/demos/steam-poster.jpg' },
   },
   {
     title: 'CodeReview Evaluation - Benchmarked LLM Code Reviewer',
@@ -107,7 +124,15 @@ export const projects: Project[] = [
     ],
     tags: ['LLM-as-a-Judge', 'Benchmarking', 'Claude API', 'Evaluation', 'Streamlit', 'Python'],
     featured: true,
-    github: 'https://github.com/KhaledLakhdher/coder_review',
+    github: 'https://github.com/KhaledLakhdher/llm-code-review-eval',
+    media: {
+      kind: 'bars',
+      caption: 'Same model, same 500 bugs: finding the bug is not understanding it',
+      bars: [
+        { label: 'Localisation', value: 78 },
+        { label: 'Correct diagnosis', value: 43 },
+      ],
+    },
   },
   {
     title: 'Hotel Mind - Multi-Agent Travel Assistant',
@@ -120,6 +145,8 @@ export const projects: Project[] = [
     tags: ['LangChain', 'LangGraph', 'Multi-Agent', 'SOAP APIs', 'FastAPI', 'Next.js', 'LangSmith'],
     featured: true,
     private: true,
+    demo: '/demos/hotel-mind-demo.mp4',
+    media: { kind: 'video', src: '/demos/hotel-mind-demo.mp4', poster: '/demos/hotel-mind-poster.jpg' },
   },
   {
     title: 'Personalized Voice Assistant',
@@ -145,6 +172,41 @@ export const projects: Project[] = [
     tags: ['FastAPI', 'DuckDB', 'PostgreSQL', 'RLS', 'Polars', 'Gemini', 'scikit-learn', 'Next.js', 'Playwright'],
     featured: true,
     github: 'https://github.com/KhaledLakhdher/DecisionFlow',
+    demo: '/demos/decisionflow-demo.mp4',
+    media: { kind: 'video', src: '/demos/decisionflow-demo.mp4', poster: '/demos/decisionflow-poster.jpg' },
+  },
+  {
+    title: 'Text-to-SQL with Guardrails',
+    blurb:
+      'A correctness-and-safety harness for LLM-generated SQL: it measures how often and how the model is wrong, and the answer can never be a DROP TABLE.',
+    bullets: [
+      'Built a deliberately nasty analytics schema seeded with 8 production correctness traps (soft deletes, join fan-out, multi-currency, fiscal year…); 4 of them return a silently wrong number rather than an error, with the error measured on the seeded data.',
+      'Enforced safety as layers, not prompt text: a read-only database role, AST inspection with sqlglot (single SELECT, table allowlist, function denylist), an injected LIMIT and an EXPLAIN cost ceiling, plus a 150-pair evaluation set and 168 passing tests.',
+    ],
+    tags: ['Text-to-SQL', 'Guardrails', 'sqlglot', 'PostgreSQL', 'FastAPI', 'Evaluation'],
+    featured: true,
+    inProgress: true,
+    github: 'https://github.com/KhaledLakhdher/text-to-sql',
+    demo: '/demos/text-to-sql-demo.mp4',
+    media: { kind: 'video', src: '/demos/text-to-sql-demo.mp4', poster: '/demos/text-to-sql-poster.jpg' },
+  },
+]
+
+// Display order: strongest proof first (live demo, production system, headline result).
+const projectOrder = ['DecisionFlow', 'Hotel Mind', 'CodeReview', 'Nexus AI', 'Text-to-SQL', 'Steam', 'Voice']
+export const projects: Project[] = projectOrder.map((key) => {
+  const p = allProjects.find((x) => x.title.includes(key))
+  if (!p) throw new Error(`projectOrder: no project matches "${key}"`)
+  return p
+})
+
+// Smaller public projects, listed under the project grid.
+export const moreProjects = [
+  { title: 'Neapolis', blurb: 'AI operating platform for accounting firms', github: 'https://github.com/KhaledLakhdher/neapolis' },
+  {
+    title: 'Freight rate prediction',
+    blurb: 'LightGBM with temporal validation on 48k loads',
+    github: 'https://github.com/KhaledLakhdher/freight-rate-prediction',
   },
 ]
 

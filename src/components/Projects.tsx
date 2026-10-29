@@ -1,7 +1,8 @@
-import { ArrowUpRight, Github, ExternalLink, Lock } from 'lucide-react'
+import { ArrowUpRight, Github, ExternalLink, Lock, PlayCircle } from 'lucide-react'
 import SectionHeader from './ui/SectionHeader'
 import Reveal from './ui/Reveal'
-import { projects } from '../data/content'
+import ProjectMedia from './ProjectMedia'
+import { projects, moreProjects } from '../data/content'
 
 export default function Projects() {
   return (
@@ -17,10 +18,15 @@ export default function Projects() {
           {projects.map((p, i) => (
             <Reveal key={p.title} delay={i * 0.08}>
               <article className="card group flex h-full flex-col p-6 hover:-translate-y-1.5 hover:border-navy/30 hover:shadow-2xl hover:shadow-navy/10">
+                {p.media && <ProjectMedia media={p.media} title={p.title} />}
+
                 <div className="flex items-start justify-between">
-                  <span className="chip border-accent/20 bg-accent/5 text-accent">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="chip border-accent/20 bg-accent/5 text-accent">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    {p.inProgress && <span className="chip">In progress</span>}
+                  </div>
                   <ArrowUpRight
                     size={18}
                     className="text-muted/50 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-navy"
@@ -67,7 +73,15 @@ export default function Projects() {
                           rel="noreferrer"
                           className="inline-flex items-center gap-1.5 text-navy transition hover:text-accent"
                         >
-                          <ExternalLink size={15} /> Live demo
+                          {p.media?.kind === 'video' ? (
+                            <>
+                              <PlayCircle size={15} /> Watch demo
+                            </>
+                          ) : (
+                            <>
+                              <ExternalLink size={15} /> Live demo
+                            </>
+                          )}
                         </a>
                       )}
                     </div>
@@ -84,6 +98,19 @@ export default function Projects() {
             </Reveal>
           ))}
         </div>
+
+        <p className="mt-8 text-sm text-muted">
+          More on GitHub:{' '}
+          {moreProjects.map((m, i) => (
+            <span key={m.title}>
+              {i > 0 && ' · '}
+              <a href={m.github} target="_blank" rel="noreferrer" className="font-semibold text-navy hover:text-accent">
+                {m.title}
+              </a>{' '}
+              ({m.blurb})
+            </span>
+          ))}
+        </p>
       </div>
     </section>
   )

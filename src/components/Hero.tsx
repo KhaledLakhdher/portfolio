@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
-import { ArrowUpRight, Linkedin, Mail, MapPin } from 'lucide-react'
+import { ArrowUpRight, Github, Linkedin, Mail, MapPin } from 'lucide-react'
 import Avatar from './Avatar'
-import { profile } from '../data/content'
+import { profile, stats } from '../data/content'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
@@ -21,7 +21,7 @@ export default function Hero() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent/60" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
             </span>
-            Open to AI / ML engineering roles &amp; 2026 opportunities
+            {profile.availability}
           </motion.p>
 
           <motion.h1
@@ -88,12 +88,35 @@ export default function Hero() {
               <Linkedin size={15} /> LinkedIn
             </a>
             <a
+              href={profile.github}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 hover:text-navy"
+            >
+              <Github size={15} /> GitHub
+            </a>
+            <a
               href={`mailto:${profile.email}`}
               className="inline-flex items-center gap-1.5 hover:text-navy"
             >
               <Mail size={15} /> Email
             </a>
           </motion.div>
+
+          <motion.dl
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.5, ease }}
+            className="mt-10 grid max-w-xl grid-cols-2 gap-x-6 gap-y-5 border-t border-line pt-6 sm:grid-cols-4"
+          >
+            {stats.map((s) => (
+              <div key={s.label}>
+                <dt className="sr-only">{s.label}</dt>
+                <dd className="text-2xl font-extrabold tabular-nums text-navy">{s.value}</dd>
+                <dd className="mt-1 text-[12px] leading-snug text-muted">{s.label}</dd>
+              </div>
+            ))}
+          </motion.dl>
         </div>
 
         {/* Right: avatar */}
