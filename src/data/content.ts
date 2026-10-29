@@ -19,8 +19,8 @@ export const profile = {
 // Headline numbers shown under the hero. Keep them verifiable from the projects below.
 export const stats = [
   { value: '9', label: 'LangGraph agents in production' },
-  { value: '500', label: 'real bugs in my LLM benchmark' },
-  { value: '1.8×', label: 'overstatement a single score hides' },
+  { value: '168', label: 'tests guarding my Text-to-SQL harness' },
+  { value: '1.8×', label: 'overstatement a single LLM score hid' },
   { value: '3', label: 'full-stack AI products built end to end' },
 ]
 
@@ -99,6 +99,8 @@ const allProjects: Project[] = [
     tags: ['FastAPI', 'pgvector', 'Redis Streams', 'Next.js', 'Multi-Agent', 'WebSockets'],
     featured: true,
     github: 'https://github.com/KhaledLakhdher/nexus-ai',
+    demo: '/demos/nexus-ai-demo.mp4',
+    media: { kind: 'video', src: '/demos/nexus-ai-demo.mp4', poster: '/demos/nexus-ai-poster.jpg' },
   },
   {
     title: 'Steam Player Forecaster - Production MLOps Pipeline',
@@ -119,20 +121,14 @@ const allProjects: Project[] = [
     blurb:
       'An AI code reviewer with a reproducible evaluation harness that separates localization from diagnosis, showing single-score benchmarks overstate true LLM capability.',
     bullets: [
-      'Developed an AI code-review pipeline (Claude API, structured JSON findings) and a reproducible evaluation harness over the BugsInPy benchmark (500 real Python bugs with ground-truth fixes), scoring localization and diagnosis as separate metrics via an LLM-as-judge.',
-      'Showed a single "bug-detection" score overstates true capability ~1.8× (78% localization vs 43% diagnosis), benchmarked 3 model tiers (Opus / Sonnet / Haiku), and shipped an interactive Streamlit demo and published results page.',
+      'Developed an AI code-review pipeline (Claude API, structured JSON findings) and a reproducible evaluation harness on a normalized BugsInPy dataset (501 real Python bugs with ground-truth fixes), scoring localization and diagnosis as separate metrics via an LLM-as-judge.',
+      'On 49 real bugs, showed a single "bug-detection" score overstates true capability ~1.8× (78% localization vs 43% diagnosis); compared 3 model tiers (Opus / Sonnet / Haiku) on the same 24 bugs, and shipped an interactive Streamlit demo. Small samples, so the result is directional.',
     ],
     tags: ['LLM-as-a-Judge', 'Benchmarking', 'Claude API', 'Evaluation', 'Streamlit', 'Python'],
     featured: true,
     github: 'https://github.com/KhaledLakhdher/llm-code-review-eval',
-    media: {
-      kind: 'bars',
-      caption: 'Same model, same 500 bugs: finding the bug is not understanding it',
-      bars: [
-        { label: 'Localisation', value: 78 },
-        { label: 'Correct diagnosis', value: 43 },
-      ],
-    },
+    demo: '/demos/code-review-demo.mp4',
+    media: { kind: 'video', src: '/demos/code-review-demo.mp4', poster: '/demos/code-review-poster.jpg' },
   },
   {
     title: 'Hotel Mind - Multi-Agent Travel Assistant',
